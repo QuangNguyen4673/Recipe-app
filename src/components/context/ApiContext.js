@@ -10,9 +10,11 @@ export default function ApiProvider({ children }) {
   const appKey = "51fbb2b80cbfe5ce41de48bc752f8e27";
   const [foodName, setFoodName] = useState("Chicken");
   const [diet, setDiet] = useState("");
-  const [data, setData] = useState([]);
   const [cuisineType, setCuisineType] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [currentFoodDetail, setcurrentFoodDetail] = useState("");
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const additionalOption = (param) => {
     const key = Object.keys(param);
@@ -26,11 +28,12 @@ export default function ApiProvider({ children }) {
     return [...optArr].join("");
   };
   const filter = additionalOption({ cuisineType, diet });
-  const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${foodName}&app_id=${appId}&app_key=${appKey}&imageSize=SMALL${filter}`;
 
   useEffect(() => {
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${foodName}&app_id=${appId}&app_key=${appKey}&imageSize=SMALL${filter}`;
     const getData = () => {
-      axios.get(url).then((result) => {
+      setLoading(true);
+      return axios.get(url).then((result) => {
         //add discription
         let dataArr = result.data.hits;
         for (let i = 0; i < dataArr.length; i++) {
@@ -43,16 +46,23 @@ export default function ApiProvider({ children }) {
     getData();
     return () => console.log("apiContext unmounted");
   }, [foodName, diet, cuisineType]);
-  const value = { data, setFoodName, setDiet, setCuisineType };
+  const value = {
+    foodName,
+    diet,
+    cuisineType,
+    data,
+    loading,
+    currentFoodDetail,
+    setFoodName,
+    setDiet,
+    setCuisineType,
+    setcurrentFoodDetail,
+  };
   console.log(
     "food, diet, cuisine from apicontext:",
     foodName,
     diet,
     cuisineType
   );
-  return (
-    <apiContext.Provider value={value}>
-      {!loading && children}
-    </apiContext.Provider>
-  );
+  return <apiContext.Provider value={value}>{children}</apiContext.Provider>;
 }

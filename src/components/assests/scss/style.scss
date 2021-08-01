@@ -1,8 +1,11 @@
-@import "./components/home";
 @import "./components/dashboard";
+@import "./components/fooddetail";
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+.foodcard-container .row {
+  justify-content: center;
 }

@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 
-function IngredientsDisplay({ ingredients }) {
+function Ingredients({ ingredients }) {
   return (
     <Accordion className="ingredients">
       <AccordionSummary>
@@ -15,11 +15,12 @@ function IngredientsDisplay({ ingredients }) {
           Ingredients
         </Typography>
       </AccordionSummary>
+
       <AccordionDetails className="ingredients-detail">
         {ingredients.map((item, index) => {
           return (
-            <Paper key={index} elevation="0">
-              {item.text}
+            <Paper key={index} elevation={1}>
+              -{item.text}
             </Paper>
           );
         })}
@@ -27,4 +28,4 @@ function IngredientsDisplay({ ingredients }) {
     </Accordion>
   );
 }
-export default IngredientsDisplay;
+export default Ingredients;
