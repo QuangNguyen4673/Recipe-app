@@ -10,8 +10,8 @@ function App() {
       <ApiProvider>
         <SearchInput />
         <Switch>
-          <Route exact path="/" component={DashBoard} />
-          <Route exact path="/fooddetail" component={FoodDetail} />
+          <Route exact path="/Restaurant-app" component={DashBoard} />
+          <Route path="/Restaurant-app/fooddetail" component={FoodDetail} />
         </Switch>
       </ApiProvider>
     </Router>

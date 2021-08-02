@@ -27,10 +27,10 @@ export default function ApiProvider({ children }) {
     }
     return [...optArr].join("");
   };
-  const filter = additionalOption({ cuisineType, diet });
-
   useEffect(() => {
+    const filter = additionalOption({ cuisineType, diet });
     const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${foodName}&app_id=${appId}&app_key=${appKey}&imageSize=SMALL${filter}`;
+
     const getData = () => {
       setLoading(true);
       return axios.get(url).then((result) => {

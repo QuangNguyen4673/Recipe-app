@@ -17,7 +17,7 @@ function SearchInput() {
     setFoodName(foodRef.current.value);
     setDiet(dietRef.current.value);
     setCuisineType(cuisineTypeRef.current.value);
-    history.push("/");
+    history.push("/Restaurant-app");
   };
   return (
     <div className="dashboard">
@@ -54,11 +54,11 @@ function SearchInput() {
             Search
           </Button>
         </Form>
-        {location.pathname === "/foodDetail" && (
+        {location.pathname === "/Restaurant-app/foodDetail" && (
           <Button
             variant="success"
             type="button"
-            onClick={() => history.push("/")}
+            onClick={() => history.push("/Restaurant-app")}
           >
             Go back to DashBoard
           </Button>

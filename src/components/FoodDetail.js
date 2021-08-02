@@ -1,15 +1,12 @@
-import { Button, Container } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import { useApi } from "./context/ApiContext";
 import dishcover from "./assests/images/dishcover.png";
 
 export default function FoodDetail() {
   const { currentFoodDetail } = useApi();
-  setTimeout(() => {}, 3000);
   const {
     image,
     label,
-    discription,
     ingredients,
     dietLabels,
     cuisineType,
@@ -17,7 +14,6 @@ export default function FoodDetail() {
     calories,
     url,
   } = currentFoodDetail;
-  const history = useHistory();
   if (!label) {
     return <h1 style={{ textAlign: "center" }}>No data :(</h1>;
   }
@@ -30,6 +26,7 @@ export default function FoodDetail() {
             <div className="food-image">
               <img
                 src={image}
+                alt="img is missing"
                 width="300px"
                 onError={(e) => {
                   e.target.onerror = null;
@@ -66,7 +63,12 @@ export default function FoodDetail() {
               </div>
               <div className="food-url">
                 <h5>URL:</h5>
-                <a className="url line-clamp" href={url} target="_blank">
+                <a
+                  className="url line-clamp"
+                  href={url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
                   {url}
                 </a>
               </div>

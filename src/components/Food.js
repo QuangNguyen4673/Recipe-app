@@ -8,13 +8,12 @@ export default function Food({ data }) {
   const history = useHistory();
   const handleClick = (...params) => {
     setcurrentFoodDetail(params[0]);
-    history.push("/foodDetail");
+    history.push("/Restaurant-app/foodDetail");
   };
   return (
     <Container className="foodcard-container">
       <Row xs={2} md={3} lg={4}>
         {data.map((item, index) => {
-          console.log(item);
           const {
             image,
             label,
