@@ -8,7 +8,7 @@ export default function Food({ data }) {
   const history = useHistory();
   const handleClick = (...params) => {
     setcurrentFoodDetail(params[0]);
-    history.push("/Restaurant-app/foodDetail");
+    history.push("/Recipe-app/foodDetail");
   };
   return (
     <Container className="foodcard-container">
