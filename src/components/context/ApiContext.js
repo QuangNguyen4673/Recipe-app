@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import * as faker from "faker/locale/en";
+import img_not_available from "../assets/images/img_not_available.png";
 
 const apiContext = createContext();
 export const useApi = () => useContext(apiContext);
@@ -8,61 +9,74 @@ export const useApi = () => useContext(apiContext);
 export default function ApiProvider({ children }) {
   const appId = "1e0e5f3e";
   const appKey = "51fbb2b80cbfe5ce41de48bc752f8e27";
-  const [foodName, setFoodName] = useState("Chicken");
-  const [diet, setDiet] = useState("");
-  const [cuisineType, setCuisineType] = useState("");
-  const [currentFoodDetail, setcurrentFoodDetail] = useState("");
+  const initialQuery = "Chicken";
 
+  const [recipeDetail, setRecipeDetail] = useState({ q: initialQuery });
+  const [currentFoodDetail, setcurrentFoodDetail] = useState({});
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const additionalOption = (param) => {
+  const addApiSyntax = (param) => {
     const key = Object.keys(param);
     const value = Object.values(param);
-    let optArr = [];
+    let queryArr = [];
     for (let i = 0; i < key.length; i++) {
       if (value[i]) {
-        optArr.push(`&${key[i]}=${value[i]}`);
+        queryArr.push(`&${key[i]}=${value[i]}`);
       }
     }
-    return [...optArr].join("");
+    return queryArr.join("");
   };
-  useEffect(() => {
-    const filter = additionalOption({ cuisineType, diet });
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${foodName}&app_id=${appId}&app_key=${appKey}&imageSize=SMALL${filter}`;
+  const addNewFields = (resultData) => {
+    return resultData.map((item) => {
+      const { uri } = item.recipe;
+      const id = uri.substring(uri.indexOf("_") + 1, uri.length);
+      const description = faker.lorem.sentence(7, 2);
 
+      return { ...item.recipe, id, description };
+    });
+  };
+  const selectedFood = (id) => {
+    const selectedItem = data.filter((item) => item.id === id)[0];
+    setcurrentFoodDetail(selectedItem);
+  };
+  const updateErrorItemImage = (id) => {
+    const updatedData = data.map((item) => {
+      if (item.id === id) {
+        return { ...item, image: img_not_available };
+      }
+      return item;
+    });
+    setData(updatedData);
+  };
+
+  useEffect(() => {
+    const query = addApiSyntax(recipeDetail);
+    const url =
+      `https://api.edamam.com/api/recipes/v2?type=public` +
+      `&app_id=${appId}&app_key=${appKey}&imageSize=SMALL${query}`;
     const getData = () => {
       setLoading(true);
       return axios.get(url).then((result) => {
-        //add discription
-        let dataArr = result.data.hits;
-        for (let i = 0; i < dataArr.length; i++) {
-          dataArr[i].recipe.discription = faker.lorem.sentence(7, 2);
-        }
-        setData(dataArr);
+        let resultData = result.data.hits;
+
+        resultData = addNewFields(resultData);
+        setData(resultData);
         setLoading(false);
       });
     };
     getData();
     return () => console.log("apiContext unmounted");
-  }, [foodName, diet, cuisineType]);
+  }, [recipeDetail]);
+
   const value = {
-    foodName,
-    diet,
-    cuisineType,
     data,
     loading,
     currentFoodDetail,
-    setFoodName,
-    setDiet,
-    setCuisineType,
-    setcurrentFoodDetail,
+    initialQuery,
+    selectedFood,
+    setRecipeDetail,
+    updateErrorItemImage,
   };
-  console.log(
-    "food, diet, cuisine from apicontext:",
-    foodName,
-    diet,
-    cuisineType
-  );
   return <apiContext.Provider value={value}>{children}</apiContext.Provider>;
 }

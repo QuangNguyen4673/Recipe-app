@@ -2,6 +2,10 @@
   .header {
     text-align: center;
     margin: 1rem 0 1.5rem 0;
+    h1 {
+      display: inline;
+      cursor: pointer;
+    }
   }
   .search-input {
     margin: 2rem auto 3rem auto;
@@ -16,10 +20,13 @@
       }
     }
   }
+
   .food-item-container {
     margin-bottom: 1.5rem;
     max-width: 18.5rem;
+
     .card {
+      /* min-height: 26.5rem; */
       min-height: 26.5rem;
     }
     .card-body {
@@ -42,16 +49,10 @@
 
       text-overflow: ellipsis;
       overflow: hidden;
-
       /*webkit-box*/
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
-    }
-    .ingredients {
-      &-detail {
-        flex-direction: column;
-      }
     }
   }
 }
@@ -59,7 +60,7 @@
   .dashboard {
     .food-item-container {
       .card {
-        min-height: 28.75rem;
+        min-height: 29.75rem;
       }
     }
   }

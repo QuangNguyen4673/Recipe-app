@@ -1,9 +1,12 @@
 import { Container } from "react-bootstrap";
 import { useApi } from "./context/ApiContext";
-import dishcover from "./assests/images/dishcover.png";
 
 export default function FoodDetail() {
   const { currentFoodDetail } = useApi();
+  console.log("food detail: ", currentFoodDetail);
+  if (!currentFoodDetail) {
+    return <h1 style={{ textAlign: "center" }}>No data :(</h1>;
+  }
   const {
     image,
     label,
@@ -14,9 +17,7 @@ export default function FoodDetail() {
     calories,
     url,
   } = currentFoodDetail;
-  if (!label) {
-    return <h1 style={{ textAlign: "center" }}>No data :(</h1>;
-  }
+
   return (
     <>
       <Container>
@@ -24,15 +25,7 @@ export default function FoodDetail() {
           <h2 className="header">{label}</h2>
           <div className="food-general">
             <div className="food-image">
-              <img
-                src={image}
-                alt="img is missing"
-                width="300px"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = dishcover;
-                }}
-              />
+              <img src={image} alt="img is missing" width="300px" />
             </div>
             <div className="food-basicinfo">
               <div className="food-calories">
@@ -62,7 +55,7 @@ export default function FoodDetail() {
                   : "N/A"}
               </div>
               <div className="food-url">
-                <h5>URL:</h5>
+                <h5>Direct Link:</h5>
                 <a
                   className="url line-clamp"
                   href={url}
@@ -75,13 +68,14 @@ export default function FoodDetail() {
             </div>
           </div>
 
-          <div className="ingredidents">
-            <h5>Ingredidents:</h5>
-            <ul>
+          <div className="ingredients">
+            <div className="ingredients-details">
+              <h5>Ingredidents:</h5>
+
               {ingredients.map((item, index) => {
-                return <li key={index}>{item.text}</li>;
+                return <div key={index}>{item.text}</div>;
               })}
-            </ul>
+            </div>
           </div>
         </div>
       </Container>
