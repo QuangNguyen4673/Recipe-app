@@ -6,14 +6,21 @@ import { useHistory } from "react-router-dom";
 function SearchInput() {
   const { loading, initialQuery, setRecipeDetail } = useApi();
 
-  const [q, setQ] = useState(initialQuery);
-  const [diet, setDiet] = useState("");
-  const [cuisineType, setCuisineType] = useState("");
+  const {
+    q: initQ,
+    diet: initDiet,
+    cuisineType: initCuisineType,
+  } = initialQuery;
+  const [q, setQ] = useState(initQ);
+  const [diet, setDiet] = useState(initDiet);
+  const [cuisineType, setCuisineType] = useState(initCuisineType);
 
   const history = useHistory();
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    setRecipeDetail({ q, diet, cuisineType });
+    const query = { q, diet, cuisineType };
+    localStorage.setItem("query", JSON.stringify(query));
+    setRecipeDetail(query);
     history.push("/Recipe-app");
   };
 
@@ -62,7 +69,7 @@ function SearchInput() {
             <option value="high-protein">High-protein</option>
             <option value="low-carb">Low-carb</option>
           </select>
-          <Button type="submit" disabled={loading}>
+          <Button variant="primary" type="submit" disabled={loading}>
             Search
           </Button>
         </Form>

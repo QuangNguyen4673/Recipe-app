@@ -26,12 +26,17 @@
     max-width: 18.5rem;
 
     .card {
-      /* min-height: 26.5rem; */
       min-height: 26.5rem;
+      img {
+        cursor: pointer;
+      }
     }
     .card-body {
       display: flex;
       flex-direction: column;
+      button {
+        width: 100%;
+      }
     }
     .card-title {
       letter-spacing: -1px;

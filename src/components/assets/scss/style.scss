@@ -1,5 +1,12 @@
+//Overide bootstrap #be2a77
+$primary: #447d75;
+$grid-gutter-width: 1rem;
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
 @import "./components/dashboard";
 @import "./components/fooddetail";
+@import "./components/spinloader";
+@import "./components/mymodal";
 
 * {
   margin: 0;
@@ -7,17 +14,6 @@
   box-sizing: border-box;
   font-family: Georgia, serif;
 }
-
-.loader-container {
-  text-align: center;
-  margin-top: 10rem;
-  & > * > span {
-    $size: 2rem;
-    height: $size;
-    width: $size;
-  }
-}
-
-.foodcard-container .row {
-  justify-content: center;
+svg {
+  color: $primary;
 }

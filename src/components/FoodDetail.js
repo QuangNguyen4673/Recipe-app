@@ -1,12 +1,18 @@
 import { Container } from "react-bootstrap";
 import { useApi } from "./context/ApiContext";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import Modal from "./Modal";
 
 export default function FoodDetail() {
+  const [imageModalUrl, setimageModalUrl] = useState(null);
   const { currentFoodDetail } = useApi();
   console.log("food detail: ", currentFoodDetail);
-  if (!currentFoodDetail) {
-    return <h1 style={{ textAlign: "center" }}>No data :(</h1>;
-  }
+  const localCurrentFoodDetail = localStorage.getItem("selectedFood");
+  const currentFoodDetailData = localCurrentFoodDetail
+    ? JSON.parse(localCurrentFoodDetail)
+    : currentFoodDetail;
   const {
     image,
     label,
@@ -16,7 +22,7 @@ export default function FoodDetail() {
     mealType,
     calories,
     url,
-  } = currentFoodDetail;
+  } = currentFoodDetailData;
 
   return (
     <>
@@ -24,8 +30,8 @@ export default function FoodDetail() {
         <div className="main-food-detail">
           <h2 className="header">{label}</h2>
           <div className="food-general">
-            <div className="food-image">
-              <img src={image} alt="img is missing" width="300px" />
+            <div className="food-image" onClick={() => setimageModalUrl(image)}>
+              <img src={image} alt="\#" width="300px" />
             </div>
             <div className="food-basicinfo">
               <div className="food-calories">
@@ -70,7 +76,13 @@ export default function FoodDetail() {
 
           <div className="ingredients">
             <div className="ingredients-details">
-              <h5>Ingredidents:</h5>
+              <h5>
+                <FontAwesomeIcon
+                  icon={faFileAlt}
+                  style={{ marginRight: ".25rem" }}
+                />
+                Ingredidents:
+              </h5>
 
               {ingredients.map((item, index) => {
                 return <div key={index}>{item.text}</div>;
@@ -79,6 +91,12 @@ export default function FoodDetail() {
           </div>
         </div>
       </Container>
+      {imageModalUrl && (
+        <Modal
+          imageModalUrl={imageModalUrl}
+          setimageModalUrl={setimageModalUrl}
+        />
+      )}
     </>
   );
 }

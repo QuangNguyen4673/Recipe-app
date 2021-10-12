@@ -1,0 +1,9 @@
+.loader-container {
+  text-align: center;
+  margin-top: 10rem;
+  & > * > span {
+    $size: 2rem;
+    height: $size;
+    width: $size;
+  }
+}

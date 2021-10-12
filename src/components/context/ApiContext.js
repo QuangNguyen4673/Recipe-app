@@ -9,9 +9,17 @@ export const useApi = () => useContext(apiContext);
 export default function ApiProvider({ children }) {
   const appId = "1e0e5f3e";
   const appKey = "51fbb2b80cbfe5ce41de48bc752f8e27";
-  const initialQuery = "Chicken";
 
-  const [recipeDetail, setRecipeDetail] = useState({ q: initialQuery });
+  const localQuery = localStorage.getItem("query");
+  const initialQuery = localQuery
+    ? JSON.parse(localQuery)
+    : {
+        q: "Chicken",
+        diet: "",
+        cuisineType: "",
+      };
+
+  const [recipeDetail, setRecipeDetail] = useState(initialQuery);
   const [currentFoodDetail, setcurrentFoodDetail] = useState({});
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,7 +38,8 @@ export default function ApiProvider({ children }) {
   const addNewFields = (resultData) => {
     return resultData.map((item) => {
       const { uri } = item.recipe;
-      const id = uri.substring(uri.indexOf("_") + 1, uri.length);
+      const id = uri.substring(uri.indexOf("#") + 1, uri.length);
+      console.log(id);
       const description = faker.lorem.sentence(7, 2);
 
       return { ...item.recipe, id, description };
@@ -38,6 +47,7 @@ export default function ApiProvider({ children }) {
   };
   const selectedFood = (id) => {
     const selectedItem = data.filter((item) => item.id === id)[0];
+    localStorage.setItem("selectedFood", JSON.stringify(selectedItem));
     setcurrentFoodDetail(selectedItem);
   };
   const updateErrorItemImage = (id) => {
