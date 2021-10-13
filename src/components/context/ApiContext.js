@@ -39,7 +39,6 @@ export default function ApiProvider({ children }) {
     return resultData.map((item) => {
       const { uri } = item.recipe;
       const id = uri.substring(uri.indexOf("#") + 1, uri.length);
-      console.log(id);
       const description = faker.lorem.sentence(7, 2);
 
       return { ...item.recipe, id, description };
@@ -76,7 +75,6 @@ export default function ApiProvider({ children }) {
       });
     };
     getData();
-    return () => console.log("apiContext unmounted");
   }, [recipeDetail]);
 
   const value = {

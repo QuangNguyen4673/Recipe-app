@@ -8,7 +8,6 @@ import Modal from "./Modal";
 export default function FoodDetail() {
   const [imageModalUrl, setimageModalUrl] = useState(null);
   const { currentFoodDetail } = useApi();
-  console.log("food detail: ", currentFoodDetail);
   const localCurrentFoodDetail = localStorage.getItem("selectedFood");
   const currentFoodDetailData = localCurrentFoodDetail
     ? JSON.parse(localCurrentFoodDetail)
