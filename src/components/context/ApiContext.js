@@ -7,9 +7,6 @@ const apiContext = createContext();
 export const useApi = () => useContext(apiContext);
 
 export default function ApiProvider({ children }) {
-  const appId = process.env.REACT_APP_APP_ID;
-  const appKey = process.env.REACT_APP_APP_KEY;
-
   const localQuery = localStorage.getItem("query");
   const initialQuery = localQuery
     ? JSON.parse(localQuery)
@@ -60,6 +57,8 @@ export default function ApiProvider({ children }) {
   };
 
   useEffect(() => {
+    const appId = process.env.REACT_APP_APP_ID;
+    const appKey = process.env.REACT_APP_APP_KEY;
     const query = addApiSyntax(recipeDetail);
     const url =
       `https://api.edamam.com/api/recipes/v2?type=public` +
