@@ -14,7 +14,6 @@ export default function Modal({ imageModalUrl, setimageModalUrl }) {
             <FontAwesomeIcon icon={faTimes} />
           </div>
         </label>
-
         <img src={imageModalUrl} alt="modal" />
       </div>
     </div>

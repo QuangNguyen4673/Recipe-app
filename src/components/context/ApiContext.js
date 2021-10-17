@@ -7,8 +7,8 @@ const apiContext = createContext();
 export const useApi = () => useContext(apiContext);
 
 export default function ApiProvider({ children }) {
-  const appId = "1e0e5f3e";
-  const appKey = "51fbb2b80cbfe5ce41de48bc752f8e27";
+  const appId = process.env.REACT_APP_APP_ID;
+  const appKey = process.env.REACT_APP_APP_KEY;
 
   const localQuery = localStorage.getItem("query");
   const initialQuery = localQuery
